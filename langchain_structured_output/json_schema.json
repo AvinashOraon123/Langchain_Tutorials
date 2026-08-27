@@ -1,0 +1,36 @@
+{
+    "title":"student",
+    "description":"A student with a name, age, email, and GPA",
+    "type":"object",
+    "properties":
+    {
+        "name":
+        {
+            "type":"string",
+            "title":"Student Name",
+            "description":"The full name of the student"  
+        },
+        "age":
+        {
+            "type":"integer",
+            "title":"Student Age",
+            "description":"The age of the student"
+        },
+        "email":
+        {
+            "type":"string" ,
+            "format":"email",
+            "title":"Student Email",
+            "description":"The email address of the student"
+        },
+        "gpa":
+        {
+            "type":"number",
+            "minimum":0.0,
+            "maximum":4.0,
+            "title":"Student GPA",
+            "description":"The GPA of the student, must be between 0.0 and 4.0"
+        }
+    },
+    "required":["name", "email", "gpa"]
+}
