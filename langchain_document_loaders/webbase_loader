@@ -1,0 +1,28 @@
+from langchain_community.document_loaders import WebBaseLoader
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import PromptTemplate
+from dotenv import load_dotenv
+
+load_dotenv()
+
+model = ChatGoogleGenerativeAI(
+    model = 'gemini-3-flash-preview'
+)
+
+prompt = PromptTemplate(
+    template='Answer the following question \n {question} from the following text - \n {text}',
+    input_variables=['question','text']
+)
+
+parser = StrOutputParser()
+
+url = 'https://www.flipkart.com/apple-macbook-air-m2-8-gb-256-gb-ssd-mac-os-monterey-mly33hn-a/p/itmdc5308fa78421?pid=COMGFB2GMCRXZG85&lid=LSTCOMGFB2GMCRXZG855GPGWQ&marketplace=FLIPKART&store=6bo%2Fb5g&srno=b_1_3&otracker=browse&fm=organic&iid=2031fb39-a052-46b5-b15c-ccb31405b693.COMGFB2GMCRXZG85.SEARCH&ppt=None&ppn=None&ssid=r336dhs04w0000001788026352263&ov_redirect=true'
+loader = WebBaseLoader(url)
+
+docs = loader.load()
+
+
+chain = prompt | model | parser
+
+print(chain.invoke({'question':'What is the prodcut that we are talking about?', 'text':docs[0].page_content}))
